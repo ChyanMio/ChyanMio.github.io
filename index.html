@@ -16,7 +16,7 @@
 
 <html class="theme-next muse use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
-  <meta charset="UTF-8">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
@@ -157,7 +157,7 @@
   .use-motion .logo-line-before i { left: initial; }
   .use-motion .logo-line-after i { right: initial; }
   </style>
-</noscript>
+</noscript><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 
 </head>
 
@@ -168,7 +168,7 @@
     
   
 
-  <div class="container sidebar-position-left 
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
   page-home">
     <div class="headband"></div>
 
@@ -286,6 +286,197 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/19/Effective-Modern-Cpp-Notes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="ChyanMio">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ChyanMio's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/10/19/Effective-Modern-Cpp-Notes/" class="post-title-link" itemprop="url">Effective Modern Cpp Notes</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-10-19 16:39:58 / 修改时间：16:45:22" itemprop="dateCreated datePublished" datetime="2019-10-19T16:39:58+08:00">2019-10-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/10/19/Effective-Modern-Cpp-Notes/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count valine-comment-count" data-xid="/2019/10/19/Effective-Modern-Cpp-Notes/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-symbolscount">
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">本文字数：</span>
+                
+                <span title="本文字数">2.2k</span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">2 分钟</span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Item-1-Understand-template-type-deduction"><a href="#Item-1-Understand-template-type-deduction" class="headerlink" title="Item 1 : Understand template type deduction"></a>Item 1 : Understand template type deduction</h1><p>• During template type deduction, arguments that are references are treated as non-references, i.e., their reference-ness is ignored. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T&gt; </span><br><span class="line">void f(const T&amp; param);  // param is now a ref-to-const</span><br><span class="line">int x = 27;              // as before const </span><br><span class="line">int cx = x;              // as before const </span><br><span class="line">int&amp; rx = x;             // as before</span><br><span class="line">f(x);                    // T is int, param&apos;s type is const int&amp;</span><br><span class="line">f(cx);                   // T is int, param&apos;s type is const int&amp;</span><br><span class="line">f(rx);                   // T is int, param&apos;s type is const int&amp;</span><br><span class="line"></span><br><span class="line">template&lt;typename T&gt; </span><br><span class="line">void f(T* param);        // param is now a pointer</span><br><span class="line">int x = 27;              // as before const </span><br><span class="line">int *px = &amp;x;            // px is a ptr to x as a const int</span><br><span class="line">f(&amp;x);                   // T is int, param&apos;s type is int*</span><br><span class="line">f(px);                   // T is const int,                         </span><br><span class="line">                         // param&apos;s type is const int*</span><br></pre></td></tr></table></figure>
+
+<p>• When deducing types for universal reference parameters, lvalue arguments get special treatment. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">template&lt;typename T&gt; </span><br><span class="line">void f(T&amp;&amp; param);       // param is now a universal reference</span><br><span class="line">int x = 27;              // as before const </span><br><span class="line">int cx = x;              // as before const </span><br><span class="line">int&amp; rx = x;             // as before</span><br><span class="line">f(x);                    // x is lvalue, so T is int&amp;,                         </span><br><span class="line">                         // param&apos;s type is also int&amp;</span><br><span class="line">f(cx);                   // cx is lvalue, so T is const int&amp;,                         </span><br><span class="line">                         // param&apos;s type is also const int&amp;</span><br><span class="line">f(rx);                   // rx is lvalue, so T is const int&amp;,                         </span><br><span class="line">                         // param&apos;s type is also const int&amp;</span><br><span class="line">f(27);                   // 27 is rvalue, so T is int,                         </span><br><span class="line">                         // param&apos;s type is therefore int&amp;&amp;</span><br></pre></td></tr></table></figure>
+
+<p>• When deducing types for by-value parameters, const and/or volatile arguments are treated as non-const and non-volatile.<br>• During template type deduction, arguments that are array or function names decay to pointers, unless they’re used to initialize references.</p>
+<p>#Item 2 : Understand auto type deduction</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/05/Principles-of-Data-Science/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -331,12 +522,24 @@
                 
               
 
-              <time title="创建时间：2019-06-05 19:07:59 / 修改时间：19:57:26" itemprop="dateCreated datePublished" datetime="2019-06-05T19:07:59+08:00">2019-06-05</time>
+              <time title="创建时间：2019-06-05 19:07:59" itemprop="dateCreated datePublished" datetime="2019-06-05T19:07:59+08:00">2019-06-05</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-06-10 11:17:44" itemprop="dateModified" datetime="2019-06-10T11:17:44+08:00">2019-06-10</time>
               
             
           </span>
@@ -377,7 +580,7 @@
                 
                   <span class="post-meta-item-text">本文字数：</span>
                 
-                <span title="本文字数">955</span>
+                <span title="本文字数">2.1k</span>
               
 
               
@@ -391,7 +594,7 @@
                 
                   <span class="post-meta-item-text">阅读时长 &asymp;</span>
                 
-                <span title="阅读时长">1 分钟</span>
+                <span title="阅读时长">2 分钟</span>
               
             </div>
           
@@ -413,19 +616,75 @@
       
         
           
-            <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h3 id="Reference-Book"><a href="#Reference-Book" class="headerlink" title="Reference Book"></a>Reference Book</h3><p>Principles of Data Science, Sinan Ozdemir<br><img src="/images/%E5%9B%BE%E7%89%871.jpg" alt="图片1"></p>
-<h3 id="Four-levels-of-data"><a href="#Four-levels-of-data" class="headerlink" title="Four levels of data"></a>Four levels of data</h3><p>Nominal level: described purely by name (e.g., animal name)<br>      math operation: set</p>
-<p>Ordinal level: with ranking order (e.g., grade)<br>      math operation: comparison</p>
-<p>Interval level: allows meaningful subtraction (e.g., Celsius temperature)<br>      math operation: subtraction</p>
-<p>Ratio level: allows meaningful division (e.g., Kelvin temperature)<br>      math operation: division</p>
-<h2 id="Feature-Engineering"><a href="#Feature-Engineering" class="headerlink" title="Feature Engineering"></a>Feature Engineering</h2><h3 id="From-structured-data-to-information"><a href="#From-structured-data-to-information" class="headerlink" title="From structured data to information"></a>From structured data to information</h3><p><img src="/images/%E5%9B%BE%E7%89%872.png" alt="图片2"><br>Deep learning model is end to end system.</p>
-<h3 id="What-is-Feature"><a href="#What-is-Feature" class="headerlink" title="What is Feature?"></a>What is Feature?</h3><p>Feature is key information, it should be robust with scale, ratation, etc.<br>Different modalities have different types of features.</p>
-<h3 id="Post-processing-on-features"><a href="#Post-processing-on-features" class="headerlink" title="Post-processing on features"></a>Post-processing on features</h3><h4 id="Lp-normalization"><a href="#Lp-normalization" class="headerlink" title="Lp normalization"></a><em>Lp</em> normalization</h4><p><img src="/images/%E5%9B%BE%E7%89%873.png" alt="图片3"></p>
-<h4 id="Z-score-normalization"><a href="#Z-score-normalization" class="headerlink" title="Z-score normalization"></a>Z-score normalization</h4><p><img src="/images/%E5%9B%BE%E7%89%874.png" alt="图片4"></p>
-<h4 id="Spatial-pyramid"><a href="#Spatial-pyramid" class="headerlink" title="Spatial pyramid"></a>Spatial pyramid</h4><p><img src="/images/%E5%9B%BE%E7%89%875.png" alt="图片5"></p>
-<h2 id="Curse-of-high-dimension"><a href="#Curse-of-high-dimension" class="headerlink" title="Curse of high-dimension"></a>Curse of high-dimension</h2><p>High model complexity, few training samples –&gt; overfitting<br>Low model complexity, abundant training samples –&gt; underfitting<br><img src="/images/%E5%9B%BE%E7%89%876.png" alt="图片6"></p>
-<h2 id="Dimensionality-reduction"><a href="#Dimensionality-reduction" class="headerlink" title="Dimensionality reduction"></a>Dimensionality reduction</h2><p><img src="/images/%E5%9B%BE%E7%89%877.png" alt="图片7"></p>
+            <h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><h3 id="Reference-Book"><a href="#Reference-Book" class="headerlink" title="Reference Book"></a>Reference Book</h3><p>Principles of Data Science, Sinan Ozdemir<br><img src="/images/1.jpg" alt="1"></p>
+<h3 id="Four-levels-of-data"><a href="#Four-levels-of-data" class="headerlink" title="Four levels of data"></a>Four levels of data</h3><ul>
+<li><p>Nominal level: described purely by name (e.g., animal name)</p>
+<pre><code>math operation: set</code></pre></li>
+<li><p>Ordinal level: with ranking order (e.g., grade)</p>
+<pre><code>math operation: comparison</code></pre></li>
+<li><p>Interval level: allows meaningful subtraction (e.g., Celsius temperature)</p>
+<pre><code>math operation: subtraction</code></pre></li>
+<li><p>Ratio level: allows meaningful division (e.g., Kelvin temperature)</p>
+<pre><code>math operation: division</code></pre></li>
+</ul>
+<h2 id="Feature-Engineering"><a href="#Feature-Engineering" class="headerlink" title="Feature Engineering"></a>Feature Engineering</h2><h3 id="From-structured-data-to-information"><a href="#From-structured-data-to-information" class="headerlink" title="From structured data to information"></a>From structured data to information</h3><img src="/images/2.png" width="80%" height="80%" alt="2">
+Deep learning model is end to end system.
 
+<h3 id="What-is-Feature"><a href="#What-is-Feature" class="headerlink" title="What is Feature?"></a>What is Feature?</h3><p>Feature is key information, it should be robust with scale, ratation, etc.<br>Different modalities have different types of features.</p>
+<h3 id="Post-processing-on-features"><a href="#Post-processing-on-features" class="headerlink" title="Post-processing on features"></a>Post-processing on features</h3><h4 id="Lp-normalization"><a href="#Lp-normalization" class="headerlink" title="Lp normalization"></a><em>Lp</em> normalization</h4><img src="/images/3.png" width="50%" height="50%" alt="3">
+
+<h4 id="Z-score-normalization"><a href="#Z-score-normalization" class="headerlink" title="Z-score normalization"></a>Z-score normalization</h4><img src="/images/4.png" width="70%" height="70%" alt="4">
+
+<h4 id="Spatial-pyramid"><a href="#Spatial-pyramid" class="headerlink" title="Spatial pyramid"></a>Spatial pyramid</h4><img src="/images/5.png" width="70%" height="70%" alt="5">
+
+<h2 id="Curse-of-high-dimension"><a href="#Curse-of-high-dimension" class="headerlink" title="Curse of high-dimension"></a>Curse of high-dimension</h2><p>High model complexity, few training samples –&gt; overfitting<br>Low model complexity, abundant training samples –&gt; underfitting<br><img src="/images/6.png" width="70%" height="70%" alt="6"></p>
+<h2 id="Dimensionality-reduction"><a href="#Dimensionality-reduction" class="headerlink" title="Dimensionality reduction"></a>Dimensionality reduction</h2><img src="/images/7.png" width="60%" height="60%" alt="7">
+
+<h3 id="Forward-selection"><a href="#Forward-selection" class="headerlink" title="Forward selection"></a>Forward selection</h3><img src="/images/8.png" width="90%" height="90%" alt="8">
+
+<h3 id="Backward-selection"><a href="#Backward-selection" class="headerlink" title="Backward selection"></a>Backward selection</h3><img src="/images/9.png" width="90%" height="90%" alt="9">
+
+<h3 id="Genetic-algorithm"><a href="#Genetic-algorithm" class="headerlink" title="Genetic algorithm"></a>Genetic algorithm</h3><img src="/images/6.png" width="60%" height="60%" alt="10">
+
+<h2 id="Feature-projection"><a href="#Feature-projection" class="headerlink" title="Feature projection"></a>Feature projection</h2><h3 id="Lineaer-projection"><a href="#Lineaer-projection" class="headerlink" title="Lineaer projection"></a>Lineaer projection</h3><h4 id="Principle-Compionent-Analysis-PCA"><a href="#Principle-Compionent-Analysis-PCA" class="headerlink" title="Principle Compionent Analysis(PCA)"></a>Principle Compionent Analysis(PCA)</h4><ol>
+<li><p>两种解释:<br>(1) Maximum variance direction: when X is decentralized.</p>
+<img src="/images/11.png" width="40%" height="40%" alt="11">
+<img src="/images/12.png" width="20%" height="20%" alt="12">
+Lagrangian form:
+<img src="/images/13.png" width="40%" height="40%" alt="13">
+<img src="/images/14.png" width="30%" height="30%" alt="14">
+<img src="/images/15.png" width="20%" height="20%" alt="15"> 
+(2) Minimum reconstruction error:
+<img src="/images/16.png" width="40%" height="40%" alt="16">
+</li>
+<li><p>PCA的算法步骤<br>设有m条n维数据。</p>
+</li>
+</ol>
+<ul>
+<li>将原始数据按列组成n行m列矩阵X。</li>
+<li>将X的每一行（代表一个属性字段）进行零均值化，即减去这一行的均值。</li>
+<li>求出协方差矩阵1/mXX^T。</li>
+<li>求出协方差矩阵的特征值及对应的特征向量。</li>
+<li>将特征向量按对应特征值大小从上到下按行排列成矩阵，取前k行组成矩阵P。</li>
+<li>Y=PX即为降维到k维后的数据。</li>
+</ul>
+<ol start="3">
+<li>能力和限制<br>PCA本质上是将方差最大的方向作为主要特征，并且在各个正交方向上将数据“离相关”，也就是让它们在不同正交方向上没有相关性。因此，PCA可以很好的解除线性相关，但是无法处理非线性相关。</li>
+</ol>
+<h4 id="Linear-Discriminative-Analysis-LDA"><a href="#Linear-Discriminative-Analysis-LDA" class="headerlink" title="Linear Discriminative Analysis(LDA)"></a>Linear Discriminative Analysis(LDA)</h4><img src="/images/17.png" width="70%" height="70%" alt="17">
+<img src="/images/18.png" width="70%" height="70%" alt="18">
+LDA的中心思想：最大化类间距离，最小化类内距离。 
+
+<h3 id="Nonlinear-projection"><a href="#Nonlinear-projection" class="headerlink" title="Nonlinear projection"></a>Nonlinear projection</h3><h4 id="Kernel-PCA"><a href="#Kernel-PCA" class="headerlink" title="Kernel PCA"></a>Kernel PCA</h4><h2 id="Feature-learning"><a href="#Feature-learning" class="headerlink" title="Feature learning"></a>Feature learning</h2><h3 id="Stochastic-Neighborhood-Embedding-SNE"><a href="#Stochastic-Neighborhood-Embedding-SNE" class="headerlink" title="Stochastic Neighborhood Embedding (SNE)"></a>Stochastic Neighborhood Embedding (SNE)</h3><p>把原空间的数据点之间的距离转换为高斯分布概率，如果两点在高维空间距离越近，那么这个概率值越大。<br><img src="/images/19.png" width="70%" height="70%" alt="19"><br><img src="/images/20.png" width="70%" height="70%" alt="20"></p>
+<h3 id="Local-Linear-Embedding-LLE"><a href="#Local-Linear-Embedding-LLE" class="headerlink" title="Local Linear Embedding (LLE)"></a>Local Linear Embedding (LLE)</h3><p>LLE属于流形学习(Manifold Learning)的一种，关注于降维时保持样本局部的线性特征。<br><img src="/images/21.jpg" width="70%" height="70%" alt="21"><br><img src="/images/22.png" width="70%" height="70%" alt="22"></p>
+<h3 id="Sparse-coding"><a href="#Sparse-coding" class="headerlink" title="Sparse coding"></a>Sparse coding</h3><p>将输入的样本集X分解为多个基元的线性组合，然后这些基前面的系数表示的是输入样本的特征。<br><img src="/images/23.png" width="70%" height="70%" alt="23"></p>
+<h3 id="Multi-Dimensional-Scaling-MDS"><a href="#Multi-Dimensional-Scaling-MDS" class="headerlink" title="Multi Dimensional Scaling (MDS)"></a>Multi Dimensional Scaling (MDS)</h3><p>多维尺度变换算法解决的问题是:当n个对象之间的相似性给定，确定这些对象在低维空间中的表示，并使其尽可能与原先的相似性大致匹配。将高维坐标中的点投影到低维空间中，保持点彼此之间的相似性尽可能不变。</p>
+<h3 id="ISOMap"><a href="#ISOMap" class="headerlink" title="ISOMap"></a>ISOMap</h3><ol>
+<li>Constructing K-nearest neighbour graph G</li>
+<li>For each pair of points in G, Computing shortest path: geodesic distance </li>
+<li>Use Classical MDS with geodesic distance matrix</li>
+</ol>
+<h3 id="Auto-encoder"><a href="#Auto-encoder" class="headerlink" title="Auto-encoder"></a>Auto-encoder</h3>
           
         
       
@@ -508,7 +767,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -568,7 +827,7 @@
     
       <span class="post-meta-item-text">站点总字数：</span>
     
-    <span title="站点总字数">1k</span>
+    <span title="站点总字数">4k</span>
   
 
   
@@ -579,7 +838,7 @@
     
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
     
-    <span title="站点阅读时长">1 分钟</span>
+    <span title="站点阅读时长">4 分钟</span>
   
 </div>
 
@@ -726,8 +985,25 @@
     visitor: false,
     lang: '' || 'zh-cn'
   });
+</script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config("");
 </script>
 
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src>
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
 
 
 
@@ -742,6 +1018,19 @@
   
 
   
+  
+
+  
+  
+    
+      
+    
+      
+    
+  
+
+  
+
 
   
 
